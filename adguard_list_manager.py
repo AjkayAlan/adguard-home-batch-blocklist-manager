@@ -37,6 +37,8 @@ class AdguardListManager:
         try:
             if list_type == ListType.blacklist and list_action == ListAction.add:
                 self.add_to_blacklist()
+            elif list_type == ListType.blacklist and list_action == ListAction.clear:
+                self.clear_blacklist()
             else:
                 print("Unknown or unimplemented path. Sorry!")
         except Exception as e:
@@ -46,10 +48,10 @@ class AdguardListManager:
 
     def get_logged_in_session(self, username: str, password: str) -> requests.Session:
         self.session = requests.Session()
-        logged_in_session = self.session.post(
+        response = self.session.post(
             f"{self.host}/control/login", json={"name": username, "password": password}
         )
-        logged_in_session.raise_for_status()
+        response.raise_for_status()
 
     def add_to_blacklist(self):
         urls = [
@@ -86,14 +88,23 @@ class AdguardListManager:
         ]
 
         for url in urls:
-            add = self.session.post(
+            response = self.session.post(
                 f"{self.host}/control/filtering/add_url",
                 json={"name": url, "url": url, "whitelist": False},
             )
-            add.raise_for_status()
+            response.raise_for_status()
 
-    def clear_blacklist():
-        pass
+    def clear_blacklist(self):
+        response = self.session.get(f"{self.host}/control/filtering/status")
+        response.raise_for_status()
+
+        filters = response.json().get("filters", [])
+        for filter in filters:
+            response = self.session.post(
+                f"{self.host}/control/filtering/remove_url",
+                json={"url": filter["url"], "whitelist": False},
+            )
+            response.raise_for_status()
 
 
 if __name__ == "__main__":
