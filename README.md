@@ -5,16 +5,10 @@ Add a bunch of lists to your AdGuard Home blocklists
 ## Setup
 
 1. Install [python](https://www.python.org/)
-2. Install [pipenv](https://pypi.org/project/pipenv/):
-
-    ```shell
-    pip install pipenv
-    ```
-
-3. Install the project requirements:
+2. Install the project requirements:
 
     ```sh
-    pipenv install
+    pip install -r requirements.txt
     ```
 
 ## Credits
