@@ -36,9 +36,13 @@ class AdguardListManager:
 
         try:
             if list_type == ListType.blacklist and list_action == ListAction.add:
-                self.add_to_blacklist()
+                self.add_to_list()
             elif list_type == ListType.blacklist and list_action == ListAction.clear:
-                self.clear_blacklist()
+                self.clear_list()
+            elif list_type == ListType.whitelist and list_action == ListAction.add:
+                self.add_to_list(whitelist=True)
+            elif list_type == ListType.whitelist and list_action == ListAction.clear:
+                self.clear_list(whitelist=True)
             else:
                 print("Unknown or unimplemented path. Sorry!")
         except Exception as e:
@@ -53,7 +57,7 @@ class AdguardListManager:
         )
         response.raise_for_status()
 
-    def add_to_blacklist(self):
+    def add_to_list(self, whitelist: bool = False):
         urls = [
             "https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt",
             "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts",
@@ -90,11 +94,11 @@ class AdguardListManager:
         for url in urls:
             response = self.session.post(
                 f"{self.host}/control/filtering/add_url",
-                json={"name": url, "url": url, "whitelist": False},
+                json={"name": url, "url": url, "whitelist": whitelist},
             )
             response.raise_for_status()
 
-    def clear_blacklist(self):
+    def clear_list(self, whitelist: bool):
         response = self.session.get(f"{self.host}/control/filtering/status")
         response.raise_for_status()
 
@@ -102,7 +106,7 @@ class AdguardListManager:
         for filter in filters:
             response = self.session.post(
                 f"{self.host}/control/filtering/remove_url",
-                json={"url": filter["url"], "whitelist": False},
+                json={"url": filter["url"], "whitelist": whitelist},
             )
             response.raise_for_status()
 
