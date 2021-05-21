@@ -92,4 +92,4 @@ python adguard_list_manager.py \
 
 ## Credits
 
-Thanks to the user who posted on [reddit](https://pastebin.com/i1d4xNAY) and had a [pastebin](https://pastebin.com/i1d4xNAY) to get me started
+Thanks to the user who posted on [reddit](https://www.reddit.com/r/Adguard/comments/isfjz3/adguard_home_batch_block_list_made_easy/) and had a [pastebin](https://pastebin.com/i1d4xNAY) to get me started
