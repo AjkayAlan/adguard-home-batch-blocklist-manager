@@ -1,6 +1,6 @@
 # adguard-home-batch-list-manager
 
-Add a bunch of lists to your AdGuard Home lists, including blocklists and whitelists
+Allows you to manage your AdGuard Home lists, including blocklists and whitelists
 
 ## Setup
 
