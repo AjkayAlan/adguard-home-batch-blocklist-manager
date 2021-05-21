@@ -84,8 +84,20 @@ class AdguardListManager:
         self,
         list_type: ListType = typer.Option(..., prompt=True),
         list_action: ListAction = typer.Option(..., prompt=True),
-        blacklist_source: BlacklistSource = typer.Option(None),
-        whitelist_source: WhitelistSource = typer.Option(None),
+        blacklist_source: BlacklistSource = typer.Option(
+            None, help="Use one of the predefined blacklist sources"
+        ),
+        whitelist_source: WhitelistSource = typer.Option(
+            None, help="Use one of the predefined whitelist sources"
+        ),
+        custom_source_list: list[str] = typer.Option(
+            None,
+            help="Any custom source lists. Use this when you have one URL which just lists a bunch of URLs to add. Repeat this argument for each url. Only for blacklists",
+        ),
+        custom_url: list[str] = typer.Option(
+            None,
+            help="Any custom urls. Repeat this argument for each url. Urls will be added directly",
+        ),
         host: str = typer.Option(..., prompt=True, help="Example: 192.168.1.5"),
         port: int = typer.Option(..., prompt=True, help="Example: 80"),
         username: str = typer.Option(
@@ -103,13 +115,20 @@ class AdguardListManager:
 
         try:
             if list_type == ListType.blacklist and list_action == ListAction.add:
-                if blacklist_source is not None:
+                if custom_source_list is not None and len(custom_source_list) > 0:
+                    for url in list(custom_source_list):
+                        self.add_blacklists_from_url(list_source_url=url)
+                elif custom_url is not None and len(custom_url) > 0:
+                    self.add_to_list(list(custom_url))
+                elif blacklist_source is not None:
                     self.add_blacklists_from_url(list_source_url=blacklist_source.url)
                 else:
                     typer.run(self.add_blacklists)
             elif list_type == ListType.blacklist and list_action == ListAction.clear:
                 self.clear_list()
             elif list_type == ListType.whitelist and list_action == ListAction.add:
+                if custom_url is not None and len(custom_url) > 0:
+                    self.add_to_list(list(custom_url))
                 if whitelist_source is not None:
                     self.add_to_list(whitelist_source.url, whitelist=True)
                 else:
