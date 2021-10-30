@@ -7,22 +7,22 @@ Allows you to manage your AdGuard Home lists, including blocklists and whitelist
 1. Install [python](https://www.python.org/)
 2. Install the project requirements:
 
-    ```sh
-    pip install -r requirements.txt
-    ```
+   ```sh
+   pip install -r requirements.txt
+   ```
 
 ## Running
 
 Run the project, and follow the prompts:
 
 ```shell
-python adguard_list_manager.py
+python src/adguard_list_manager.py
 ```
 
 Alternatively, you can pass CLI args directly. For example, here is how you can clear your blacklists:
 
 ```shell
-python adguard_list_manager.py \
+python src/adguard_list_manager.py \
     --host YourAdGuardIPAddressHere \
     --port YourAdGuardPortHere \
     --username YourAdGuardUsernameHere \
@@ -34,7 +34,7 @@ python adguard_list_manager.py \
 And here is how you can add the ticket lists to your blacklists:
 
 ```shell
-python adguard_list_manager.py \
+python src/adguard_list_manager.py \
     --host YourAdGuardIPAddressHere \
     --port YourAdGuardPortHere \
     --username YourAdGuardUsernameHere \
@@ -60,7 +60,7 @@ The same pattern is repeated for whitelist, though `custom-source-list` doesn't 
 If you have a URL which defines multiple URL's to add (like firebog), use the `custom-source-list` argument. You can repeat this if needed:
 
 ```shell
-python adguard_list_manager.py \
+python src/adguard_list_manager.py \
     --host YourAdGuardIPAddressHere \
     --port YourAdGuardPortHere \
     --username YourAdGuardUsernameHere \
@@ -74,7 +74,7 @@ python adguard_list_manager.py \
 Alternatively, if you just have a bunch of URL sources with rules in them, you can add them using the `custom-url` argument, repeated for each url if needed:
 
 ```shell
-python adguard_list_manager.py \
+python src/adguard_list_manager.py \
     --host YourAdGuardIPAddressHere \
     --port YourAdGuardPortHere \
     --username YourAdGuardUsernameHere \
